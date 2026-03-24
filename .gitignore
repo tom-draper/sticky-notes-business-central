@@ -1,0 +1,11 @@
+# AL packages (downloaded automatically via "AL: Download Symbols")
+.alpackages/
+
+# Compiled extension output
+*.app
+
+# VS Code AL extension state
+.vscode/rad.json
+
+# VS Code launch config (contains tenant ID)
+.vscode/launch.json
