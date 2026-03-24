@@ -2,15 +2,15 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using System.Utilities;
 
-page 50100 "SNA Note List"
+page 50100 "SN Note List"
 {
     Caption = 'Sticky Notes';
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
-    SourceTable = "SNA Note";
+    SourceTable = "SN Note";
     Editable = false;
-    CardPageId = "SNA Note Card";
+    CardPageId = "SN Note Card";
 
     layout
     {
@@ -123,7 +123,7 @@ page 50100 "SNA Note List"
 
                 trigger OnAction()
                 var
-                    Note: Record "SNA Note";
+                    Note: Record "SN Note";
                     TempBlob: Codeunit "Temp Blob";
                     OutStream: OutStream;
                     InStream: InStream;

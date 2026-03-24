@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Finance.GeneralLedger.Account;
+using Microsoft.Projects.Project.Job;
 
-pageextension 50107 "SNA GL Account Card Ext" extends "G/L Account Card"
+pageextension 50109 "SN Job Card Ext" extends "Job Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50107 "SNA GL Account Card Ext" extends "G/L Account Card"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -43,19 +43,19 @@ pageextension 50107 "SNA GL Account Card Ext" extends "G/L Account Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this G/L account.';
+                    ToolTip = 'Create a new sticky note for this project.';
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"G/L Account";
+                        NewNote."Target Table ID" := Database::Job;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"G/L Account");
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Job);
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Description, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,19 +69,19 @@ pageextension 50107 "SNA GL Account Card Ext" extends "G/L Account Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this G/L account.';
+                    ToolTip = 'View all sticky notes for this project.';
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"G/L Account");
+                        Note.SetRange("Target Table ID", Database::Job);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"G/L Account", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -94,18 +94,18 @@ pageextension 50107 "SNA GL Account Card Ext" extends "G/L Account Card"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"G/L Account", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"G/L Account", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Job, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

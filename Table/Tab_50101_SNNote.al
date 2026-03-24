@@ -1,11 +1,11 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-table 50103 "SNA Note"
+table 50103 "SN Note"
 {
     Caption = 'Sticky Note';
     DataClassification = CustomerContent;
-    LookupPageId = "SNA Note List";
-    DrillDownPageId = "SNA Note List";
+    LookupPageId = "SN Note List";
+    DrillDownPageId = "SN Note List";
 
     fields
     {
@@ -32,7 +32,7 @@ table 50103 "SNA Note"
         {
             Caption = 'Message';
         }
-        field(6; Color; Enum "SNA Note Color")
+        field(6; Color; Enum "SN Note Color")
         {
             Caption = 'Color';
         }
@@ -61,12 +61,12 @@ table 50103 "SNA Note"
             Caption = 'Active';
             InitValue = true;
         }
-        field(12; Style; Enum "SNA Note Style")
+        field(12; Style; Enum "SN Note Style")
         {
             Caption = 'Position';
             InitValue = Popup;
         }
-        field(13; "Target Table"; Enum "SNA Target Table")
+        field(13; "Target Table"; Enum "SN Target Table")
         {
             Caption = 'Target Type';
         }
