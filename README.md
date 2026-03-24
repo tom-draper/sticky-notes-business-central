@@ -1,6 +1,6 @@
 # Sticky Notes for Business Central
 
-A Microsoft Dynamics 365 Business Central AL extension that lets users attach sticky note Notes to records. Notes appear as draggable pop-up cards or native banner notifications, with support for colours, scheduling, and expiry.
+A Microsoft Dynamics 365 Business Central AL extension that lets users attach sticky notes to records. Notes appear as draggable pop-up cards or native banner notifications, with support for colours, scheduling, and expiry.
 
 ## Features
 
