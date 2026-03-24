@@ -14,6 +14,7 @@
     var _cleanupTimer    = null;
 
     var STYLE_POPUP   = 1;
+    var _topDragZ     = 9999000;
 
     var COLOURS = {
         0: { bg: '#FFFDE7', border: '#F9A825', header: '#FFF9C4' },
@@ -38,19 +39,20 @@
         '#sna-popup-root:empty { display:none; }',
         '.sna-card {',
         '  pointer-events:auto;',
-        '  box-shadow:0 4px 14px rgba(0,0,0,0.16),0 1px 4px rgba(0,0,0,0.08);',
-        '  opacity:0;',
-        '  transition:opacity 0.3s ease;',
+        '  box-shadow:0 1px 2px rgba(0,0,0,0.04),0 4px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.06);',
+        '  will-change:opacity,transform;',
+        '  opacity:0; transform:scale(0.96);',
+        '  transition:opacity 0.25s ease,transform 0.3s cubic-bezier(0.16,1,0.3,1);',
         '  font-family:"Segoe UI",Tahoma,sans-serif; font-size:13px;',
         '}',
         '.sna-card--popup {',
         '  width:320px; max-width:90vw;',
-        '  box-shadow:0 8px 32px rgba(0,0,0,0.22),0 2px 8px rgba(0,0,0,0.12);',
+        '  box-shadow:0 2px 4px rgba(0,0,0,0.05),0 8px 16px rgba(0,0,0,0.08),0 20px 40px rgba(0,0,0,0.07);',
         '}',
-        '.sna-card.sna-visible { opacity:1; }',
-        '.sna-card.sna-hiding  { opacity:0; }',
-        '.sna-card--popup.sna-visible { opacity:1; }',
-        '.sna-card--popup.sna-hiding  { opacity:0; }',
+        '.sna-card.sna-visible { opacity:1; transform:scale(1); }',
+        '.sna-card.sna-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }',
+        '.sna-card--popup.sna-visible { opacity:1; transform:scale(1); }',
+        '.sna-card--popup.sna-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }',
         '.sna-card-header {',
         '  display:flex; align-items:center; gap:8px;',
         '  padding:6px 8px 6px 10px;',
@@ -226,7 +228,7 @@
             }
 
             noteEl.style.transition = 'none';
-            noteEl.style.zIndex     = '9999999';
+            noteEl.style.zIndex     = ++_topDragZ;
             headerEl.style.cursor   = 'grabbing';
 
             dragging  = true;
