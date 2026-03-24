@@ -50,21 +50,15 @@ html, body {
         0 4px 12px rgba(0, 0, 0, 0.18),
         0 1px 4px  rgba(0, 0, 0, 0.10);
 
-    /* Start just off to the right (within viewport) and invisible — avoids iframe clip */
-    transform: translateX(40px);
     opacity: 0;
-    transition:
-        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity   0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .sna-note.sna-visible {
-    transform: translateX(0);
     opacity: 1;
 }
 
 .sna-note.sna-hiding {
-    transform: translateX(40px);
     opacity: 0;
 }
 
