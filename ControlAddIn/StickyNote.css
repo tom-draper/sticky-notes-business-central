@@ -43,9 +43,6 @@ html, body {
 .sna-note {
     width: 340px;
     max-width: 100%;
-    /* border: 1px solid #F9A825; */
-    /* border-left-width: 5px; */
-    /* border-radius: 6px; */
     box-shadow:
         0 1px 2px  rgba(0, 0, 0, 0.04),
         0 4px 8px  rgba(0, 0, 0, 0.06),
@@ -77,8 +74,6 @@ html, body {
     align-items: center;
     gap: 8px;
     padding: 6px 8px 6px 10px;
-    /* border-bottom: 1px solid transparent; */
-    /* border-radius: 4px 4px 0 0; */
 }
 
 .sna-title {
