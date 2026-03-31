@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.FixedAssets.FixedAsset;
 
-pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
+pageextension 50106 "SN Fixed Asset Card Ext" extends "Fixed Asset Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -47,9 +47,9 @@ pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
                         NewNote."Target Table ID" := Database::"Fixed Asset";
@@ -73,9 +73,9 @@ pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         Note.SetRange("Target Table ID", Database::"Fixed Asset");
                         Note.SetRange("Target System ID", Rec.SystemId);
@@ -94,7 +94,7 @@ pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
         NoteManager.ShowMainNotes(Database::"Fixed Asset", Rec.SystemId, SentNotificationIds);
         LoadNotes();
@@ -102,7 +102,7 @@ pageextension 50106 "SNA Fixed Asset Card Ext" extends "Fixed Asset Card"
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
         NotesJson := NoteManager.GetActiveNotesJson(Database::"Fixed Asset", Rec.SystemId);

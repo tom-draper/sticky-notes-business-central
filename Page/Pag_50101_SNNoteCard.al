@@ -16,12 +16,12 @@ using Microsoft.Inventory.Transfer;
 using Microsoft.Service.Document;
 using Microsoft.Inventory.Location;
 
-page 50101 "SNA Note Card"
+page 50101 "SN Note Card"
 {
     Caption = 'Sticky Note';
     PageType = Card;
     ApplicationArea = All;
-    SourceTable = "SNA Note";
+    SourceTable = "SN Note";
     DataCaptionExpression = NotePageCaption;
 
     layout
@@ -43,7 +43,7 @@ page 50101 "SNA Note Card"
                     trigger OnValidate()
                     begin
                         ClearTargetRecord();
-                        ShowRecordLookup := Rec."Target Table" <> Enum::"SNA Target Table"::" ";
+                        ShowRecordLookup := Rec."Target Table" <> Enum::"SN Target Table"::" ";
                         CurrPage.Update(true);
                     end;
                 }
@@ -173,7 +173,7 @@ page 50101 "SNA Note Card"
     /// </summary>
     procedure SetTargetRecord(TableId: Integer; SystemId: Guid; Description: Text[250])
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
         IsTargetPreset := true;
         ShowRecordLookup := false;
@@ -186,7 +186,7 @@ page 50101 "SNA Note Card"
 
     local procedure SetTargetFromRecord(TableId: Integer; SystemId: Guid; RecNo: Code[20]; Description: Text[250])
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
         Rec."Target Table ID" := TableId;
         Rec."Target System ID" := SystemId;
@@ -205,7 +205,7 @@ page 50101 "SNA Note Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
         if IsTargetPreset then begin
             Rec."Target Table ID" := PresetTableId;
@@ -220,7 +220,7 @@ page 50101 "SNA Note Card"
         if Rec."Entry No." <> 0 then begin
             TargetDescription := Rec."Target Record Description";
             NotePageCaption := Rec."Target Record Description";
-            ShowRecordLookup := Rec."Target Table" <> Enum::"SNA Target Table"::" ";
+            ShowRecordLookup := Rec."Target Table" <> Enum::"SN Target Table"::" ";
         end;
     end;
 
@@ -253,109 +253,109 @@ page 50101 "SNA Note Card"
         Location: Record Location;
     begin
         case Rec."Target Table" of
-            Enum::"SNA Target Table"::Customer:
+            Enum::"SN Target Table"::Customer:
                 begin
                     Customer.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Customer, Customer.SystemId, Customer."No.",
                         Customer."No." + ' - ' + Customer.Name);
                 end;
-            Enum::"SNA Target Table"::Vendor:
+            Enum::"SN Target Table"::Vendor:
                 begin
                     Vendor.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Vendor, Vendor.SystemId, Vendor."No.",
                         Vendor."No." + ' - ' + Vendor.Name);
                 end;
-            Enum::"SNA Target Table"::Item:
+            Enum::"SN Target Table"::Item:
                 begin
                     Item.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Item, Item.SystemId, Item."No.",
                         Item."No." + ' - ' + Item.Description);
                 end;
-            Enum::"SNA Target Table"::Contact:
+            Enum::"SN Target Table"::Contact:
                 begin
                     Contact.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Contact, Contact.SystemId, Contact."No.",
                         Contact."No." + ' - ' + Contact.Name);
                 end;
-            Enum::"SNA Target Table"::"Sales Order":
+            Enum::"SN Target Table"::"Sales Order":
                 begin
                     SalesHeader.Get(SalesHeader."Document Type"::Order, Rec."Record No.");
                     SetTargetFromRecord(Database::"Sales Header", SalesHeader.SystemId, SalesHeader."No.",
                         'Sales Order ' + SalesHeader."No." + ' - ' + SalesHeader."Sell-to Customer Name");
                 end;
-            Enum::"SNA Target Table"::"Purchase Order":
+            Enum::"SN Target Table"::"Purchase Order":
                 begin
                     PurchaseHeader.Get(PurchaseHeader."Document Type"::Order, Rec."Record No.");
                     SetTargetFromRecord(Database::"Purchase Header", PurchaseHeader.SystemId, PurchaseHeader."No.",
                         'Purchase Order ' + PurchaseHeader."No." + ' - ' + PurchaseHeader."Buy-from Vendor Name");
                 end;
-            Enum::"SNA Target Table"::"Bank Account":
+            Enum::"SN Target Table"::"Bank Account":
                 begin
                     BankAccount.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::"Bank Account", BankAccount.SystemId, BankAccount."No.",
                         BankAccount."No." + ' - ' + BankAccount.Name);
                 end;
-            Enum::"SNA Target Table"::Employee:
+            Enum::"SN Target Table"::Employee:
                 begin
                     Empl.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Employee, Empl.SystemId, Empl."No.",
                         Empl."No." + ' - ' + Empl."First Name" + ' ' + Empl."Last Name");
                 end;
-            Enum::"SNA Target Table"::"Fixed Asset":
+            Enum::"SN Target Table"::"Fixed Asset":
                 begin
                     FixedAsset.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::"Fixed Asset", FixedAsset.SystemId, FixedAsset."No.",
                         FixedAsset."No." + ' - ' + FixedAsset.Description);
                 end;
-            Enum::"SNA Target Table"::"G/L Account":
+            Enum::"SN Target Table"::"G/L Account":
                 begin
                     GLAccount.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::"G/L Account", GLAccount.SystemId, GLAccount."No.",
                         GLAccount."No." + ' - ' + GLAccount.Name);
                 end;
-            Enum::"SNA Target Table"::Resource:
+            Enum::"SN Target Table"::Resource:
                 begin
                     Res.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Resource, Res.SystemId, Res."No.",
                         Res."No." + ' - ' + Res.Name);
                 end;
-            Enum::"SNA Target Table"::Job:
+            Enum::"SN Target Table"::Job:
                 begin
                     Job.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Job, Job.SystemId, Job."No.",
                         Job."No." + ' - ' + Job.Description);
                 end;
-            Enum::"SNA Target Table"::"Sales Quote":
+            Enum::"SN Target Table"::"Sales Quote":
                 begin
                     SalesHeader.Get(SalesHeader."Document Type"::Quote, Rec."Record No.");
                     SetTargetFromRecord(Database::"Sales Header", SalesHeader.SystemId, SalesHeader."No.",
                         'Sales Quote ' + SalesHeader."No." + ' - ' + SalesHeader."Sell-to Customer Name");
                 end;
-            Enum::"SNA Target Table"::"Sales Invoice":
+            Enum::"SN Target Table"::"Sales Invoice":
                 begin
                     SalesHeader.Get(SalesHeader."Document Type"::Invoice, Rec."Record No.");
                     SetTargetFromRecord(Database::"Sales Header", SalesHeader.SystemId, SalesHeader."No.",
                         'Sales Invoice ' + SalesHeader."No." + ' - ' + SalesHeader."Sell-to Customer Name");
                 end;
-            Enum::"SNA Target Table"::"Purchase Invoice":
+            Enum::"SN Target Table"::"Purchase Invoice":
                 begin
                     PurchaseHeader.Get(PurchaseHeader."Document Type"::Invoice, Rec."Record No.");
                     SetTargetFromRecord(Database::"Purchase Header", PurchaseHeader.SystemId, PurchaseHeader."No.",
                         'Purchase Invoice ' + PurchaseHeader."No." + ' - ' + PurchaseHeader."Buy-from Vendor Name");
                 end;
-            Enum::"SNA Target Table"::"Transfer Order":
+            Enum::"SN Target Table"::"Transfer Order":
                 begin
                     TransferHeader.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::"Transfer Header", TransferHeader.SystemId, TransferHeader."No.",
                         'Transfer ' + TransferHeader."No." + ' - ' + TransferHeader."Transfer-from Code" + ' → ' + TransferHeader."Transfer-to Code");
                 end;
-            Enum::"SNA Target Table"::"Service Order":
+            Enum::"SN Target Table"::"Service Order":
                 begin
                     ServiceHeader.Get(ServiceHeader."Document Type"::Order, Rec."Record No.");
                     SetTargetFromRecord(Database::"Service Header", ServiceHeader.SystemId, ServiceHeader."No.",
                         'Service Order ' + ServiceHeader."No." + ' - ' + ServiceHeader.Name);
                 end;
-            Enum::"SNA Target Table"::Location:
+            Enum::"SN Target Table"::Location:
                 begin
                     Location.Get(Rec."Record No.");
                     SetTargetFromRecord(Database::Location, Location.SystemId, Location.Code,
@@ -383,7 +383,7 @@ page 50101 "SNA Note Card"
         Location: Record Location;
     begin
         case Rec."Target Table" of
-            Enum::"SNA Target Table"::Customer:
+            Enum::"SN Target Table"::Customer:
                 if Page.RunModal(Page::"Customer List", Customer) = Action::LookupOK then begin
                     Rec."Record No." := Customer."No.";
                     Text := Rec."Record No.";
@@ -391,7 +391,7 @@ page 50101 "SNA Note Card"
                         Customer."No." + ' - ' + Customer.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Vendor:
+            Enum::"SN Target Table"::Vendor:
                 if Page.RunModal(Page::"Vendor List", Vendor) = Action::LookupOK then begin
                     Rec."Record No." := Vendor."No.";
                     Text := Rec."Record No.";
@@ -399,7 +399,7 @@ page 50101 "SNA Note Card"
                         Vendor."No." + ' - ' + Vendor.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Item:
+            Enum::"SN Target Table"::Item:
                 if Page.RunModal(Page::"Item List", Item) = Action::LookupOK then begin
                     Rec."Record No." := Item."No.";
                     Text := Rec."Record No.";
@@ -407,7 +407,7 @@ page 50101 "SNA Note Card"
                         Item."No." + ' - ' + Item.Description);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Contact:
+            Enum::"SN Target Table"::Contact:
                 if Page.RunModal(Page::"Contact List", Contact) = Action::LookupOK then begin
                     Rec."Record No." := Contact."No.";
                     Text := Rec."Record No.";
@@ -415,7 +415,7 @@ page 50101 "SNA Note Card"
                         Contact."No." + ' - ' + Contact.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::"Sales Order":
+            Enum::"SN Target Table"::"Sales Order":
                 begin
                     SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Order);
                     if Page.RunModal(Page::"Sales Order List", SalesHeader) = Action::LookupOK then begin
@@ -426,7 +426,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::"Purchase Order":
+            Enum::"SN Target Table"::"Purchase Order":
                 begin
                     PurchaseHeader.SetRange("Document Type", PurchaseHeader."Document Type"::Order);
                     if Page.RunModal(Page::"Purchase Order List", PurchaseHeader) = Action::LookupOK then begin
@@ -437,7 +437,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::"Bank Account":
+            Enum::"SN Target Table"::"Bank Account":
                 if Page.RunModal(Page::"Bank Account List", BankAccount) = Action::LookupOK then begin
                     Rec."Record No." := BankAccount."No.";
                     Text := Rec."Record No.";
@@ -445,7 +445,7 @@ page 50101 "SNA Note Card"
                         BankAccount."No." + ' - ' + BankAccount.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Employee:
+            Enum::"SN Target Table"::Employee:
                 if Page.RunModal(Page::"Employee List", Empl) = Action::LookupOK then begin
                     Rec."Record No." := Empl."No.";
                     Text := Rec."Record No.";
@@ -453,7 +453,7 @@ page 50101 "SNA Note Card"
                         Empl."No." + ' - ' + Empl."First Name" + ' ' + Empl."Last Name");
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::"Fixed Asset":
+            Enum::"SN Target Table"::"Fixed Asset":
                 if Page.RunModal(Page::"Fixed Asset List", FixedAsset) = Action::LookupOK then begin
                     Rec."Record No." := FixedAsset."No.";
                     Text := Rec."Record No.";
@@ -461,7 +461,7 @@ page 50101 "SNA Note Card"
                         FixedAsset."No." + ' - ' + FixedAsset.Description);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::"G/L Account":
+            Enum::"SN Target Table"::"G/L Account":
                 if Page.RunModal(Page::"Chart of Accounts", GLAccount) = Action::LookupOK then begin
                     Rec."Record No." := GLAccount."No.";
                     Text := Rec."Record No.";
@@ -469,7 +469,7 @@ page 50101 "SNA Note Card"
                         GLAccount."No." + ' - ' + GLAccount.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Resource:
+            Enum::"SN Target Table"::Resource:
                 if Page.RunModal(Page::"Resource List", Res) = Action::LookupOK then begin
                     Rec."Record No." := Res."No.";
                     Text := Rec."Record No.";
@@ -477,7 +477,7 @@ page 50101 "SNA Note Card"
                         Res."No." + ' - ' + Res.Name);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::Job:
+            Enum::"SN Target Table"::Job:
                 if Page.RunModal(Page::"Job List", Job) = Action::LookupOK then begin
                     Rec."Record No." := Job."No.";
                     Text := Rec."Record No.";
@@ -485,7 +485,7 @@ page 50101 "SNA Note Card"
                         Job."No." + ' - ' + Job.Description);
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::"Sales Quote":
+            Enum::"SN Target Table"::"Sales Quote":
                 begin
                     SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Quote);
                     if Page.RunModal(Page::"Sales Quotes", SalesHeader) = Action::LookupOK then begin
@@ -496,7 +496,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::"Sales Invoice":
+            Enum::"SN Target Table"::"Sales Invoice":
                 begin
                     SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Invoice);
                     if Page.RunModal(Page::"Sales Invoice List", SalesHeader) = Action::LookupOK then begin
@@ -507,7 +507,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::"Purchase Invoice":
+            Enum::"SN Target Table"::"Purchase Invoice":
                 begin
                     PurchaseHeader.SetRange("Document Type", PurchaseHeader."Document Type"::Invoice);
                     if Page.RunModal(Page::"Purchase Invoices", PurchaseHeader) = Action::LookupOK then begin
@@ -518,7 +518,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::"Transfer Order":
+            Enum::"SN Target Table"::"Transfer Order":
                 if Page.RunModal(Page::"Transfer Orders", TransferHeader) = Action::LookupOK then begin
                     Rec."Record No." := TransferHeader."No.";
                     Text := Rec."Record No.";
@@ -526,7 +526,7 @@ page 50101 "SNA Note Card"
                         'Transfer ' + TransferHeader."No." + ' - ' + TransferHeader."Transfer-from Code" + ' → ' + TransferHeader."Transfer-to Code");
                     exit(true);
                 end;
-            Enum::"SNA Target Table"::"Service Order":
+            Enum::"SN Target Table"::"Service Order":
                 begin
                     ServiceHeader.SetRange("Document Type", ServiceHeader."Document Type"::Order);
                     if Page.RunModal(Page::"Service Orders", ServiceHeader) = Action::LookupOK then begin
@@ -537,7 +537,7 @@ page 50101 "SNA Note Card"
                         exit(true);
                     end;
                 end;
-            Enum::"SNA Target Table"::Location:
+            Enum::"SN Target Table"::Location:
                 if Page.RunModal(Page::"Location List", Location) = Action::LookupOK then begin
                     Rec."Record No." := Location.Code;
                     Text := Rec."Record No.";

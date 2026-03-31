@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Inventory.Transfer;
+using Microsoft.Inventory.Location;
 
-pageextension 50115 "SNA Transfer Order Ext" extends "Transfer Order"
+pageextension 50117 "SN Location Card Ext" extends "Location Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50115 "SNA Transfer Order Ext" extends "Transfer Order"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -43,20 +43,20 @@ pageextension 50115 "SNA Transfer Order Ext" extends "Transfer Order"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this transfer order.';
+                    ToolTip = 'Create a new sticky note for this location.';
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Transfer Header";
+                        NewNote."Target Table ID" := Database::Location;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Transfer Header");
-                        NewNote."Target Record Description" := CopyStr('Transfer ' + Rec."No." + ' - ' + Rec."Transfer-from Code" + ' → ' + Rec."Transfer-to Code", 1, MaxStrLen(NewNote."Target Record Description"));
-                        NewNote."Record No." := Rec."No.";
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Location);
+                        NewNote."Target Record Description" := CopyStr(Rec.Code + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Record No." := Rec.Code;
                         NewNote.Insert(true);
                         Commit();
                         NoteCard.SetRecord(NewNote);
@@ -69,19 +69,19 @@ pageextension 50115 "SNA Transfer Order Ext" extends "Transfer Order"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this transfer order.';
+                    ToolTip = 'View all sticky notes for this location.';
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Transfer Header");
+                        Note.SetRange("Target Table ID", Database::Location);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Transfer Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -94,18 +94,18 @@ pageextension 50115 "SNA Transfer Order Ext" extends "Transfer Order"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Transfer Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Transfer Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Location, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

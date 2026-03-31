@@ -16,7 +16,7 @@ using Microsoft.Inventory.Transfer;
 using Microsoft.Service.Document;
 using Microsoft.Inventory.Location;
 
-codeunit 50100 "SNA Note Manager"
+codeunit 50100 "SN Note Manager"
 {
     /// <summary>
     /// Returns a JSON array of active, visible Notes for the given record.
@@ -24,7 +24,7 @@ codeunit 50100 "SNA Note Manager"
     /// </summary>
     procedure GetActiveNotesJson(TableId: Integer; SystemId: Guid): Text
     var
-        Note: Record "SNA Note";
+        Note: Record "SN Note";
         NoteArray: JsonArray;
         NoteObj: JsonObject;
         ResultText: Text;
@@ -59,7 +59,7 @@ codeunit 50100 "SNA Note Manager"
     /// </summary>
     procedure ShowMainNotes(TableId: Integer; SystemId: Guid; var SentIds: List of [Guid])
     var
-        Note: Record "SNA Note";
+        Note: Record "SN Note";
         Notif: Notification;
         NowDT: DateTime;
         NotifId: Guid;
@@ -89,7 +89,7 @@ codeunit 50100 "SNA Note Manager"
             until Note.Next() = 0;
     end;
 
-    local procedure IsNoteVisible(Note: Record "SNA Note"; NowDT: DateTime): Boolean
+    local procedure IsNoteVisible(Note: Record "SN Note"; NowDT: DateTime): Boolean
     begin
         if (Note."Scheduled From" <> 0DT) and (NowDT < Note."Scheduled From") then
             exit(false);
@@ -99,42 +99,42 @@ codeunit 50100 "SNA Note Manager"
     end;
 
     /// <summary>
-    /// Resolves the SNA Target Table enum from a table ID.
+    /// Resolves the SN Target Table enum from a table ID.
     /// </summary>
-    procedure TableIdToTargetTableEnum(TableId: Integer): Enum "SNA Target Table"
+    procedure TableIdToTargetTableEnum(TableId: Integer): Enum "SN Target Table"
     begin
         case TableId of
             Database::Customer:
-                exit(Enum::"SNA Target Table"::Customer);
+                exit(Enum::"SN Target Table"::Customer);
             Database::Vendor:
-                exit(Enum::"SNA Target Table"::Vendor);
+                exit(Enum::"SN Target Table"::Vendor);
             Database::Item:
-                exit(Enum::"SNA Target Table"::Item);
+                exit(Enum::"SN Target Table"::Item);
             Database::Contact:
-                exit(Enum::"SNA Target Table"::Contact);
+                exit(Enum::"SN Target Table"::Contact);
             Database::"Sales Header":
-                exit(Enum::"SNA Target Table"::"Sales Order");
+                exit(Enum::"SN Target Table"::"Sales Order");
             Database::"Purchase Header":
-                exit(Enum::"SNA Target Table"::"Purchase Order");
+                exit(Enum::"SN Target Table"::"Purchase Order");
             Database::"Bank Account":
-                exit(Enum::"SNA Target Table"::"Bank Account");
+                exit(Enum::"SN Target Table"::"Bank Account");
             Database::Employee:
-                exit(Enum::"SNA Target Table"::Employee);
+                exit(Enum::"SN Target Table"::Employee);
             Database::"Fixed Asset":
-                exit(Enum::"SNA Target Table"::"Fixed Asset");
+                exit(Enum::"SN Target Table"::"Fixed Asset");
             Database::"G/L Account":
-                exit(Enum::"SNA Target Table"::"G/L Account");
+                exit(Enum::"SN Target Table"::"G/L Account");
             Database::Resource:
-                exit(Enum::"SNA Target Table"::Resource);
+                exit(Enum::"SN Target Table"::Resource);
             Database::Job:
-                exit(Enum::"SNA Target Table"::Job);
+                exit(Enum::"SN Target Table"::Job);
             Database::"Transfer Header":
-                exit(Enum::"SNA Target Table"::"Transfer Order");
+                exit(Enum::"SN Target Table"::"Transfer Order");
             Database::"Service Header":
-                exit(Enum::"SNA Target Table"::"Service Order");
+                exit(Enum::"SN Target Table"::"Service Order");
             Database::Location:
-                exit(Enum::"SNA Target Table"::Location);
+                exit(Enum::"SN Target Table"::Location);
         end;
-        exit(Enum::"SNA Target Table"::" ");
+        exit(Enum::"SN Target Table"::" ");
     end;
 }
