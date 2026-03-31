@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Sales.Document;
+using Microsoft.Inventory.Transfer;
 
-pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
+pageextension 61515 "SN Transfer Order Ext" extends "Transfer Order"
 {
     layout
     {
@@ -43,18 +43,19 @@ pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this sales invoice.';
+                    ToolTip = 'Create a new sticky note for this transfer order.';
 
                     trigger OnAction()
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Sales Header";
+                        NewNote."Target Table ID" := Database::"Transfer Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := Enum::"SN Target Table"::"Sales Invoice";
-                        NewNote."Target Record Description" := CopyStr('Sales Invoice ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Transfer Header");
+                        NewNote."Target Record Description" := CopyStr('Transfer ' + Rec."No." + ' - ' + Rec."Transfer-from Code" + ' → ' + Rec."Transfer-to Code", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -68,7 +69,7 @@ pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this sales invoice.';
+                    ToolTip = 'View all sticky notes for this transfer order.';
 
                     trigger OnAction()
                     var
@@ -76,11 +77,11 @@ pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Sales Header");
+                        Note.SetRange("Target Table ID", Database::"Transfer Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Transfer Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -95,7 +96,7 @@ pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Transfer Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -104,7 +105,7 @@ pageextension 50112 "SN Sales Invoice Ext" extends "Sales Invoice"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Sales Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Transfer Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

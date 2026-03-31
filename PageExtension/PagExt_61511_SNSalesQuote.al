@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Purchases.Document;
+using Microsoft.Sales.Document;
 
-pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
+pageextension 61511 "SN Sales Quote Ext" extends "Sales Quote"
 {
     layout
     {
@@ -43,19 +43,18 @@ pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this purchase order.';
+                    ToolTip = 'Create a new sticky note for this sales quote.';
 
                     trigger OnAction()
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
-                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Purchase Header";
+                        NewNote."Target Table ID" := Database::"Sales Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Purchase Header");
-                        NewNote."Target Record Description" := CopyStr('Purchase Order ' + Rec."No." + ' - ' + Rec."Buy-from Vendor Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := Enum::"SN Target Table"::"Sales Quote";
+                        NewNote."Target Record Description" := CopyStr('Sales Quote ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,7 +68,7 @@ pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this purchase order.';
+                    ToolTip = 'View all sticky notes for this sales quote.';
 
                     trigger OnAction()
                     var
@@ -77,11 +76,11 @@ pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Purchase Header");
+                        Note.SetRange("Target Table ID", Database::"Sales Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +95,7 @@ pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +104,7 @@ pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Purchase Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Sales Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

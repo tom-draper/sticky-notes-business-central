@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using System.Utilities;
 
-page 50100 "SN Note List"
+page 61500 "SN Note List"
 {
     Caption = 'Sticky Notes';
     PageType = List;

@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Projects.Project.Job;
+using Microsoft.Sales.Customer;
 
-pageextension 50109 "SN Job Card Ext" extends "Job Card"
+pageextension 61500 "SN Customer Card Ext" extends "Customer Card"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this project.';
+                    ToolTip = 'Create a new sticky note for this customer.';
 
                     trigger OnAction()
                     var
@@ -52,10 +52,10 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Job;
+                        NewNote."Target Table ID" := Database::Customer;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Job);
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Description, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Customer);
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,7 +69,7 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this project.';
+                    ToolTip = 'View all sticky notes for this customer.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Job);
+                        Note.SetRange("Target Table ID", Database::Customer);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50109 "SN Job Card Ext" extends "Job Card"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Job, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Customer, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

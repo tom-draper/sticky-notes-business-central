@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.HumanResources.Employee;
 
-pageextension 50105 "SN Employee Card Ext" extends "Employee Card"
+pageextension 61505 "SN Employee Card Ext" extends "Employee Card"
 {
     layout
     {

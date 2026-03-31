@@ -1,6 +1,6 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-table 50103 "SN Note"
+table 61503 "SN Note"
 {
     Caption = 'Sticky Note';
     DataClassification = CustomerContent;

@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Sales.Customer;
+using Microsoft.Service.Document;
 
-pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
+pageextension 61516 "SN Service Order Ext" extends "Service Order"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this customer.';
+                    ToolTip = 'Create a new sticky note for this service order.';
 
                     trigger OnAction()
                     var
@@ -52,10 +52,10 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Customer;
+                        NewNote."Target Table ID" := Database::"Service Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Customer);
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Service Header");
+                        NewNote."Target Record Description" := CopyStr('Service Order ' + Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,7 +69,7 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this customer.';
+                    ToolTip = 'View all sticky notes for this service order.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Customer);
+                        Note.SetRange("Target Table ID", Database::"Service Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Service Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Service Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50100 "SN Customer Card Ext" extends "Customer Card"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Customer, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Service Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

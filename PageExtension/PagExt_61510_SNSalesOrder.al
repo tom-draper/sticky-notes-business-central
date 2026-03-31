@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Inventory.Location;
+using Microsoft.Sales.Document;
 
-pageextension 50117 "SN Location Card Ext" extends "Location Card"
+pageextension 61510 "SN Sales Order Ext" extends "Sales Order"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this location.';
+                    ToolTip = 'Create a new sticky note for this sales order.';
 
                     trigger OnAction()
                     var
@@ -52,11 +52,11 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Location;
+                        NewNote."Target Table ID" := Database::"Sales Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Location);
-                        NewNote."Target Record Description" := CopyStr(Rec.Code + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
-                        NewNote."Record No." := Rec.Code;
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Sales Header");
+                        NewNote."Target Record Description" := CopyStr('Sales Order ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
                         NoteCard.SetRecord(NewNote);
@@ -69,7 +69,7 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this location.';
+                    ToolTip = 'View all sticky notes for this sales order.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Location);
+                        Note.SetRange("Target Table ID", Database::"Sales Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50117 "SN Location Card Ext" extends "Location Card"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Location, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Sales Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

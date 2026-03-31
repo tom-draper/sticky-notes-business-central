@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Sales.Document;
+using Microsoft.Projects.Resources.Resource;
 
-pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
+pageextension 61508 "SN Resource Card Ext" extends "Resource Card"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this sales order.';
+                    ToolTip = 'Create a new sticky note for this resource.';
 
                     trigger OnAction()
                     var
@@ -52,10 +52,10 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Sales Header";
+                        NewNote."Target Table ID" := Database::Resource;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Sales Header");
-                        NewNote."Target Record Description" := CopyStr('Sales Order ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Resource);
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,7 +69,7 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this sales order.';
+                    ToolTip = 'View all sticky notes for this resource.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Sales Header");
+                        Note.SetRange("Target Table ID", Database::Resource);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50110 "SN Sales Order Ext" extends "Sales Order"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Sales Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Resource, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

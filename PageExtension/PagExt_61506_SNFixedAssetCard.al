@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.FixedAssets.FixedAsset;
 
-pageextension 50106 "SN Fixed Asset Card Ext" extends "Fixed Asset Card"
+pageextension 61506 "SN Fixed Asset Card Ext" extends "Fixed Asset Card"
 {
     layout
     {

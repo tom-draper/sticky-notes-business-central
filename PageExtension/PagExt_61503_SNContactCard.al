@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.CRM.Contact;
 
-pageextension 50103 "SN Contact Card Ext" extends "Contact Card"
+pageextension 61503 "SN Contact Card Ext" extends "Contact Card"
 {
     layout
     {

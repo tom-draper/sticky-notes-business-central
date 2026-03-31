@@ -1,6 +1,6 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-enum 50101 "SN Target Table"
+enum 61501 "SN Target Table"
 {
     Extensible = true;
 

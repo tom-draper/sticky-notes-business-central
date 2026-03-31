@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Purchases.Document;
+using Microsoft.Projects.Project.Job;
 
-pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
+pageextension 61509 "SN Job Card Ext" extends "Job Card"
 {
     layout
     {
@@ -43,18 +43,19 @@ pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this purchase invoice.';
+                    ToolTip = 'Create a new sticky note for this project.';
 
                     trigger OnAction()
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Purchase Header";
+                        NewNote."Target Table ID" := Database::Job;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := Enum::"SN Target Table"::"Purchase Invoice";
-                        NewNote."Target Record Description" := CopyStr('Purchase Invoice ' + Rec."No." + ' - ' + Rec."Buy-from Vendor Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Job);
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Description, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -68,7 +69,7 @@ pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this purchase invoice.';
+                    ToolTip = 'View all sticky notes for this project.';
 
                     trigger OnAction()
                     var
@@ -76,11 +77,11 @@ pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Purchase Header");
+                        Note.SetRange("Target Table ID", Database::Job);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -95,7 +96,7 @@ pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Job, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -104,7 +105,7 @@ pageextension 50114 "SN Purchase Invoice Ext" extends "Purchase Invoice"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Purchase Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Job, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Projects.Resources.Resource;
+using Microsoft.Inventory.Location;
 
-pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
+pageextension 61517 "SN Location Card Ext" extends "Location Card"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this resource.';
+                    ToolTip = 'Create a new sticky note for this location.';
 
                     trigger OnAction()
                     var
@@ -52,11 +52,11 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Resource;
+                        NewNote."Target Table ID" := Database::Location;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Resource);
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
-                        NewNote."Record No." := Rec."No.";
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Location);
+                        NewNote."Target Record Description" := CopyStr(Rec.Code + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Record No." := Rec.Code;
                         NewNote.Insert(true);
                         Commit();
                         NoteCard.SetRecord(NewNote);
@@ -69,7 +69,7 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this resource.';
+                    ToolTip = 'View all sticky notes for this location.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Resource);
+                        Note.SetRange("Target Table ID", Database::Location);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Location, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50108 "SN Resource Card Ext" extends "Resource Card"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Resource, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Location, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

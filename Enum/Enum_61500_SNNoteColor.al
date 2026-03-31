@@ -1,6 +1,6 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-enum 50100 "SN Note Color"
+enum 61500 "SN Note Color"
 {
     Extensible = true;
 

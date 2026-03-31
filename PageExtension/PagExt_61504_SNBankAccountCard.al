@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Finance.GeneralLedger.Account;
+using Microsoft.Bank.BankAccount;
 
-pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
+pageextension 61504 "SN Bank Account Card Ext" extends "Bank Account Card"
 {
     layout
     {
@@ -43,7 +43,7 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this G/L account.';
+                    ToolTip = 'Create a new sticky note for this bank account.';
 
                     trigger OnAction()
                     var
@@ -52,9 +52,9 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
                         NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"G/L Account";
+                        NewNote."Target Table ID" := Database::"Bank Account";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"G/L Account");
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Bank Account");
                         NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
@@ -69,7 +69,7 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this G/L account.';
+                    ToolTip = 'View all sticky notes for this bank account.';
 
                     trigger OnAction()
                     var
@@ -77,11 +77,11 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"G/L Account");
+                        Note.SetRange("Target Table ID", Database::"Bank Account");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"G/L Account", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Bank Account", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -96,7 +96,7 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"G/L Account", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Bank Account", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -105,7 +105,7 @@ pageextension 50107 "SN GL Account Card Ext" extends "G/L Account Card"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"G/L Account", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Bank Account", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.Purchases.Vendor;
 
-pageextension 50101 "SN Vendor Card Ext" extends "Vendor Card"
+pageextension 61501 "SN Vendor Card Ext" extends "Vendor Card"
 {
     layout
     {

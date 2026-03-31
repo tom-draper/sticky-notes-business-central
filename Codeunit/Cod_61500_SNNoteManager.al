@@ -16,7 +16,7 @@ using Microsoft.Inventory.Transfer;
 using Microsoft.Service.Document;
 using Microsoft.Inventory.Location;
 
-codeunit 50100 "SN Note Manager"
+codeunit 61500 "SN Note Manager"
 {
     /// <summary>
     /// Returns a JSON array of active, visible Notes for the given record.

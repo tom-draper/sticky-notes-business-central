@@ -64,7 +64,7 @@ Built with AL for Business Central. No external dependencies.
 ```
 Publisher:  Tom Draper
 Version:    1.0.0.0
-ID range:   50100–50149
+ID range:   61500–61549
 Runtime:    16.0
 ```
 

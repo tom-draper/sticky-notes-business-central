@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Sales.Document;
+using Microsoft.Purchases.Document;
 
-pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
+pageextension 61513 "SN Purchase Order Ext" extends "Purchase Order"
 {
     layout
     {
@@ -43,18 +43,19 @@ pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this sales quote.';
+                    ToolTip = 'Create a new sticky note for this purchase order.';
 
                     trigger OnAction()
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Sales Header";
+                        NewNote."Target Table ID" := Database::"Purchase Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := Enum::"SN Target Table"::"Sales Quote";
-                        NewNote."Target Record Description" := CopyStr('Sales Quote ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Purchase Header");
+                        NewNote."Target Record Description" := CopyStr('Purchase Order ' + Rec."No." + ' - ' + Rec."Buy-from Vendor Name", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -68,7 +69,7 @@ pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this sales quote.';
+                    ToolTip = 'View all sticky notes for this purchase order.';
 
                     trigger OnAction()
                     var
@@ -76,11 +77,11 @@ pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
                         Note: Record "SN Note";
                         NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Sales Header");
+                        Note.SetRange("Target Table ID", Database::"Purchase Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -95,7 +96,7 @@ pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
     var
         NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Sales Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
@@ -104,7 +105,7 @@ pageextension 50111 "SN Sales Quote Ext" extends "Sales Quote"
         NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Sales Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Purchase Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

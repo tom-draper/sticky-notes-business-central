@@ -16,7 +16,7 @@ using Microsoft.Inventory.Transfer;
 using Microsoft.Service.Document;
 using Microsoft.Inventory.Location;
 
-page 50101 "SN Note Card"
+page 61501 "SN Note Card"
 {
     Caption = 'Sticky Note';
     PageType = Card;
