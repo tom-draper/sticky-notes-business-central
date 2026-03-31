@@ -16,7 +16,7 @@ Notes appear as draggable pop-up cards or native banner notifications, with supp
   - **Pop Up** - floating card in the top-right corner of the page, draggable and dismissible per session
   - **Banner** - native BC notification bar at the top of the page
 - **Five colours** - Yellow, Red, Blue, Green, Pink
-- **Scheduling** - set a Scheduled From date/time so a note only appears from a certain point
+- **Scheduling** - set a *Scheduled From* date/time so a note only appears from a certain point
 - **Expiry** - set an *Expires At* date/time to automatically hide a note after a deadline
 - **Active toggle** - quickly enable or disable a note without deleting it
 - **Audit fields** - every note records who created it and when
