@@ -17,7 +17,7 @@ html, body {
    Root — right-aligned so notes stack in the top-right corner
 ----------------------------------------------------------------------- */
 
-#sna-root {
+#sn-root {
     /* position: fixed inside an iframe is relative to the iframe viewport,
        not the browser window — so this overlays the 130px control add-in area */
     position: fixed;
@@ -40,7 +40,7 @@ html, body {
    Sticky note card — slides in from the RIGHT
 ----------------------------------------------------------------------- */
 
-.sna-note {
+.sn-note {
     width: 340px;
     max-width: 100%;
     box-shadow:
@@ -54,12 +54,12 @@ html, body {
     transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sna-note.sna-visible {
+.sn-note.sn-visible {
     opacity: 1;
     transform: scale(1);
 }
 
-.sna-note.sna-hiding {
+.sn-note.sn-hiding {
     opacity: 0;
     transform: scale(0.96);
     transition: opacity 0.18s ease-in, transform 0.18s ease-in;
@@ -69,14 +69,14 @@ html, body {
    Header
 ----------------------------------------------------------------------- */
 
-.sna-header {
+.sn-header {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 6px 8px 6px 10px;
 }
 
-.sna-title {
+.sn-title {
     font-weight: 600;
     font-size: 12px;
     text-transform: uppercase;
@@ -85,7 +85,7 @@ html, body {
     white-space: nowrap;
 }
 
-.sna-meta {
+.sn-meta {
     font-size: 11px;
     color: #555;
     flex: 1;
@@ -99,7 +99,7 @@ html, body {
    Dismiss button  ✕  — top-right of the header
 ----------------------------------------------------------------------- */
 
-.sna-dismiss {
+.sn-dismiss {
     flex-shrink: 0;
     background: none;
     border: 1px solid transparent;
@@ -113,13 +113,13 @@ html, body {
     transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.sna-dismiss:hover {
+.sn-dismiss:hover {
     background: rgba(0, 0, 0, 0.10);
     border-color: rgba(0, 0, 0, 0.18);
     color: #111;
 }
 
-.sna-dismiss:active {
+.sn-dismiss:active {
     background: rgba(0, 0, 0, 0.18);
 }
 
@@ -127,7 +127,7 @@ html, body {
    Message body
 ----------------------------------------------------------------------- */
 
-.sna-body {
+.sn-body {
     padding: 9px 12px;
     font-size: 13px;
     line-height: 1.5;

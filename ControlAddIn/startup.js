@@ -29,15 +29,15 @@
   // -----------------------------------------------------------------------
 
   var INJECTED_CSS = [
-    "/* === SNA Sticky Notes === */",
-    "#sna-popup-root {",
+    "/* === SN Sticky Notes === */",
+    "#sn-popup-root {",
     "  position:fixed; top:16px; right:16px; z-index:999999;",
     "  display:flex; flex-direction:column; align-items:flex-end; gap:10px;",
     "  pointer-events:none;",
     '  font-family:"Segoe UI",Tahoma,sans-serif; font-size:13px;',
     "}",
-    "#sna-popup-root:empty { display:none; }",
-    ".sna-card {",
+    "#sn-popup-root:empty { display:none; }",
+    ".sn-card {",
     "  pointer-events:auto;",
     "  box-shadow:0 1px 2px rgba(0,0,0,0.04),0 4px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.06);",
     "  will-change:opacity,transform;",
@@ -45,34 +45,34 @@
     "  transition:opacity 0.25s ease,transform 0.3s cubic-bezier(0.16,1,0.3,1);",
     '  font-family:"Segoe UI",Tahoma,sans-serif; font-size:13px;',
     "}",
-    ".sna-card--popup {",
+    ".sn-card--popup {",
     "  width:320px; max-width:90vw;",
     "  box-shadow:0 2px 4px rgba(0,0,0,0.05),0 8px 16px rgba(0,0,0,0.08),0 20px 40px rgba(0,0,0,0.07);",
     "}",
-    ".sna-card.sna-visible { opacity:1; transform:scale(1); }",
-    ".sna-card.sna-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }",
-    ".sna-card--popup.sna-visible { opacity:1; transform:scale(1); }",
-    ".sna-card--popup.sna-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }",
-    ".sna-card-header {",
+    ".sn-card.sn-visible { opacity:1; transform:scale(1); }",
+    ".sn-card.sn-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }",
+    ".sn-card--popup.sn-visible { opacity:1; transform:scale(1); }",
+    ".sn-card--popup.sn-hiding  { opacity:0; transform:scale(0.96); transition:opacity 0.18s ease-in,transform 0.18s ease-in; }",
+    ".sn-card-header {",
     "  display:flex; align-items:center; gap:8px;",
     "  padding:6px 8px 6px 10px;",
     "  border-radius:4px 4px 0 0;",
     "}",
-    ".sna-card-title { font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#333; white-space:nowrap; }",
-    ".sna-card-meta  { font-size:11px; color:#555; flex:1; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }",
-    ".sna-card-dismiss {",
+    ".sn-card-title { font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#333; white-space:nowrap; }",
+    ".sn-card-meta  { font-size:11px; color:#555; flex:1; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }",
+    ".sn-card-dismiss {",
     "  flex-shrink:0; background:none; border:1px solid transparent; border-radius:4px;",
     "  cursor:pointer; font-size:14px; font-weight:700; line-height:1;",
     "  color:#555; padding:2px 5px; font-family:inherit;",
     "  transition:background 0.15s,color 0.15s;",
     "}",
-    ".sna-card-dismiss:hover { background:rgba(0,0,0,0.10); color:#111; }",
-    ".sna-card-body {",
+    ".sn-card-dismiss:hover { background:rgba(0,0,0,0.10); color:#111; }",
+    ".sn-card-body {",
     "  padding:8px 12px; font-size:13px; line-height:1.5; color:#222;",
     "  white-space:pre-wrap; word-break:break-word; max-height:100px; overflow-y:auto;",
     "}",
-    ".sna-card--popup .sna-card-header { cursor:grab; }",
-    ".sna-card--popup .sna-card-header:active { cursor:grabbing; }",
+    ".sn-card--popup .sn-card-header { cursor:grab; }",
+    ".sn-card--popup .sn-card-header:active { cursor:grabbing; }",
   ].join("\n");
 
   // -----------------------------------------------------------------------
@@ -137,14 +137,14 @@
         setTimeout(
           (function (el) {
             return function () {
-              el.classList.add("sna-visible");
+              el.classList.add("sn-visible");
             };
           })(noteEl),
           animDelay,
         );
         animDelay += 130;
       } else {
-        noteEl.classList.add("sna-visible");
+        noteEl.classList.add("sn-visible");
       }
     });
 
@@ -217,26 +217,26 @@
     var doc = _parentDoc || document;
 
     var note = doc.createElement("div");
-    note.className = "sna-card" + (isPopup ? " sna-card--popup" : "");
+    note.className = "sn-card" + (isPopup ? " sn-card--popup" : "");
     note.style.backgroundColor = c.bg;
     note.style.borderLeftColor = c.border;
 
     var header = doc.createElement("div");
-    header.className = "sna-card-header";
+    header.className = "sn-card-header";
     header.style.backgroundColor = c.header;
     header.style.borderBottomColor = c.border;
 
     var title = doc.createElement("span");
-    title.className = "sna-card-title";
+    title.className = "sn-card-title";
 
     var meta = doc.createElement("span");
-    meta.className = "sna-card-meta";
+    meta.className = "sn-card-meta";
     meta.textContent =
       Note.createdBy + "  \u00B7  " + formatDate(Note.createdAt);
     meta.title = Note.createdAt;
 
     var btn = doc.createElement("button");
-    btn.className = "sna-card-dismiss";
+    btn.className = "sn-card-dismiss";
     btn.title = "Dismiss";
     btn.innerHTML = "&#x2715;";
     btn.onclick = function () {
@@ -248,7 +248,7 @@
     header.appendChild(btn);
 
     var body = doc.createElement("div");
-    body.className = "sna-card-body";
+    body.className = "sn-card-body";
     body.textContent = Note.message;
 
     note.appendChild(header);
@@ -270,7 +270,7 @@
     var startX, startY, startLeft, startTop;
 
     function onMouseDown(e) {
-      if (e.target.classList.contains("sna-card-dismiss")) return;
+      if (e.target.classList.contains("sn-card-dismiss")) return;
       e.preventDefault();
 
       if (!noteEl._snaDragged) {
@@ -366,8 +366,8 @@
   function dismissNote(entryNo, noteEl) {
     _dismissed[entryNo] = true;
     if (noteEl._snaCleanupDrag) noteEl._snaCleanupDrag();
-    noteEl.classList.remove("sna-visible");
-    noteEl.classList.add("sna-hiding");
+    noteEl.classList.remove("sn-visible");
+    noteEl.classList.add("sn-hiding");
     setTimeout(function () {
       if (noteEl.parentNode) noteEl.parentNode.removeChild(noteEl);
       delete _rendered[entryNo];
@@ -386,15 +386,15 @@
     }
 
     // Inject CSS once (or re-inject if it was removed)
-    if (!_parentDoc.getElementById("sna-injected-styles")) {
+    if (!_parentDoc.getElementById("sn-injected-styles")) {
       var styleEl = _parentDoc.createElement("style");
-      styleEl.id = "sna-injected-styles";
+      styleEl.id = "sn-injected-styles";
       styleEl.textContent = INJECTED_CSS;
       _parentDoc.head.appendChild(styleEl);
     }
 
     return {
-      popup: getOrCreate("sna-popup-root"),
+      popup: getOrCreate("sn-popup-root"),
     };
   }
 
@@ -419,13 +419,13 @@
     }
     try {
       // Remove containers
-      ["sna-popup-root", "sna-injected-styles"].forEach(function (id) {
+      ["sn-popup-root", "sn-injected-styles"].forEach(function (id) {
         var el = _parentDoc && _parentDoc.getElementById(id);
         if (el && el.parentNode) el.parentNode.removeChild(el);
       });
       // Remove dragged notes that were moved to body
       if (_parentDoc) {
-        var dragged = _parentDoc.querySelectorAll(".sna-card--popup");
+        var dragged = _parentDoc.querySelectorAll(".sn-card--popup");
         for (var i = 0; i < dragged.length; i++) {
           if (dragged[i].parentNode)
             dragged[i].parentNode.removeChild(dragged[i]);
@@ -461,8 +461,8 @@
         Object.keys(_rendered).forEach(function (id) {
           var el = _rendered[id];
           if (el && el.isConnected) {
-            el.classList.remove("sna-visible");
-            el.classList.add("sna-hiding");
+            el.classList.remove("sn-visible");
+            el.classList.add("sn-hiding");
           }
         });
         // Schedule full DOM cleanup — long enough for BC to finish any SPA transition
@@ -495,9 +495,9 @@
     try {
       _parentDoc = window.parent.document;
       // Clear stale notes left by a previous page's add-in
-      var oldRoot = _parentDoc.getElementById("sna-popup-root");
+      var oldRoot = _parentDoc.getElementById("sn-popup-root");
       if (oldRoot) oldRoot.innerHTML = "";
-      var stale = _parentDoc.querySelectorAll(".sna-card--popup");
+      var stale = _parentDoc.querySelectorAll(".sn-card--popup");
       for (var i = 0; i < stale.length; i++) {
         if (stale[i].parentNode) stale[i].parentNode.removeChild(stale[i]);
       }
