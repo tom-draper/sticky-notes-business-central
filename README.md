@@ -8,7 +8,7 @@ Notes appear as draggable pop-up cards or native banner notifications, with supp
 
 <br></br>
 
-<img width="1343" height="389" alt="image" src="https://github.com/user-attachments/assets/0579a2d6-a492-431b-af26-9bad7a25f71c" />
+<img width="1424" height="391" alt="image" src="https://github.com/user-attachments/assets/1c141a4d-d33d-45e3-a1cb-e5edfd25e716" />
 
 ## Features
 
