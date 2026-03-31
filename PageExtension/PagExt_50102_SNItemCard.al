@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Sales.Customer;
+using Microsoft.Inventory.Item;
 
-pageextension 50100 "SNA Customer Card Ext" extends "Customer Card"
+pageextension 50102 "SN Item Card Ext" extends "Item Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50100 "SNA Customer Card Ext" extends "Customer Card"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -43,19 +43,19 @@ pageextension 50100 "SNA Customer Card Ext" extends "Customer Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this customer.';
+                    ToolTip = 'Create a new sticky note for this item.';
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Customer;
+                        NewNote."Target Table ID" := Database::Item;
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Customer);
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Item);
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Description, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,19 +69,19 @@ pageextension 50100 "SNA Customer Card Ext" extends "Customer Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this customer.';
+                    ToolTip = 'View all sticky notes for this item.';
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Customer);
+                        Note.SetRange("Target Table ID", Database::Item);
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::Item, Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -94,18 +94,18 @@ pageextension 50100 "SNA Customer Card Ext" extends "Customer Card"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Customer, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::Item, Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Customer, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::Item, Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

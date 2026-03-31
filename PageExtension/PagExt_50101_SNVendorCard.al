@@ -2,7 +2,7 @@ namespace DefaultPublisher.StickyNoteNotes;
 
 using Microsoft.Purchases.Vendor;
 
-pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
+pageextension 50101 "SN Vendor Card Ext" extends "Vendor Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -47,9 +47,9 @@ pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
                         NewNote."Target Table ID" := Database::Vendor;
@@ -73,9 +73,9 @@ pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         Note.SetRange("Target Table ID", Database::Vendor);
                         Note.SetRange("Target System ID", Rec.SystemId);
@@ -94,7 +94,7 @@ pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
         NoteManager.ShowMainNotes(Database::Vendor, Rec.SystemId, SentNotificationIds);
         LoadNotes();
@@ -102,7 +102,7 @@ pageextension 50101 "SNA Vendor Card Ext" extends "Vendor Card"
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
         NotesJson := NoteManager.GetActiveNotesJson(Database::Vendor, Rec.SystemId);

@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Service.Document;
+using Microsoft.Bank.BankAccount;
 
-pageextension 50116 "SNA Service Order Ext" extends "Service Order"
+pageextension 50104 "SN Bank Account Card Ext" extends "Bank Account Card"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50116 "SNA Service Order Ext" extends "Service Order"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -43,19 +43,19 @@ pageextension 50116 "SNA Service Order Ext" extends "Service Order"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this service order.';
+                    ToolTip = 'Create a new sticky note for this bank account.';
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::"Service Header";
+                        NewNote."Target Table ID" := Database::"Bank Account";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Service Header");
-                        NewNote."Target Record Description" := CopyStr('Service Order ' + Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Bank Account");
+                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,19 +69,19 @@ pageextension 50116 "SNA Service Order Ext" extends "Service Order"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this service order.';
+                    ToolTip = 'View all sticky notes for this bank account.';
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::"Service Header");
+                        Note.SetRange("Target Table ID", Database::"Bank Account");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::"Service Header", Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Bank Account", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -94,18 +94,18 @@ pageextension 50116 "SNA Service Order Ext" extends "Service Order"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::"Service Header", Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Bank Account", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::"Service Header", Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Bank Account", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }

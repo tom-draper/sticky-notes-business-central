@@ -1,6 +1,6 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-controladdin "SNA Sticky Note"
+controladdin "SN Sticky Note"
 {
     StartupScript = 'ControlAddIn/startup.js';
     StyleSheets = 'ControlAddIn/StickyNote.css';

@@ -1,8 +1,8 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-using Microsoft.Projects.Resources.Resource;
+using Microsoft.Purchases.Document;
 
-pageextension 50108 "SNA Resource Card Ext" extends "Resource Card"
+pageextension 50113 "SN Purchase Order Ext" extends "Purchase Order"
 {
     layout
     {
@@ -12,7 +12,7 @@ pageextension 50108 "SNA Resource Card Ext" extends "Resource Card"
             {
                 ShowCaption = false;
 
-                usercontrol(StickyNoteAddIn; "SNA Sticky Note")
+                usercontrol(StickyNoteAddIn; "SN Sticky Note")
                 {
                     ApplicationArea = All;
 
@@ -43,19 +43,19 @@ pageextension 50108 "SNA Resource Card Ext" extends "Resource Card"
                     Caption = 'New Sticky Note';
                     ApplicationArea = All;
                     Image = "Invoicing-MDL-New";
-                    ToolTip = 'Create a new sticky note for this resource.';
+                    ToolTip = 'Create a new sticky note for this purchase order.';
 
                     trigger OnAction()
                     var
-                        NewNote: Record "SNA Note";
-                        NoteCard: Page "SNA Note Card";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NewNote: Record "SN Note";
+                        NoteCard: Page "SN Note Card";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
-                        NewNote."Target Table ID" := Database::Resource;
+                        NewNote."Target Table ID" := Database::"Purchase Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::Resource);
-                        NewNote."Target Record Description" := CopyStr(Rec."No." + ' - ' + Rec.Name, 1, MaxStrLen(NewNote."Target Record Description"));
+                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Purchase Header");
+                        NewNote."Target Record Description" := CopyStr('Purchase Order ' + Rec."No." + ' - ' + Rec."Buy-from Vendor Name", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
                         Commit();
@@ -69,19 +69,19 @@ pageextension 50108 "SNA Resource Card Ext" extends "Resource Card"
                     Caption = 'Sticky Notes';
                     ApplicationArea = All;
                     Image = Note;
-                    ToolTip = 'View all sticky notes for this resource.';
+                    ToolTip = 'View all sticky notes for this purchase order.';
 
                     trigger OnAction()
                     var
-                        NoteList: Page "SNA Note List";
-                        Note: Record "SNA Note";
-                        NoteManager: Codeunit "SNA Note Manager";
+                        NoteList: Page "SN Note List";
+                        Note: Record "SN Note";
+                        NoteManager: Codeunit "SN Note Manager";
                     begin
-                        Note.SetRange("Target Table ID", Database::Resource);
+                        Note.SetRange("Target Table ID", Database::"Purchase Header");
                         Note.SetRange("Target System ID", Rec.SystemId);
                         NoteList.SetTableView(Note);
                         NoteList.RunModal();
-                        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
+                        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
                         LoadNotes();
                     end;
                 }
@@ -94,18 +94,18 @@ pageextension 50108 "SNA Resource Card Ext" extends "Resource Card"
 
     trigger OnAfterGetRecord()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
     begin
-        NoteManager.ShowMainNotes(Database::Resource, Rec.SystemId, SentNotificationIds);
+        NoteManager.ShowMainNotes(Database::"Purchase Header", Rec.SystemId, SentNotificationIds);
         LoadNotes();
     end;
 
     local procedure LoadNotes()
     var
-        NoteManager: Codeunit "SNA Note Manager";
+        NoteManager: Codeunit "SN Note Manager";
         NotesJson: Text;
     begin
-        NotesJson := NoteManager.GetActiveNotesJson(Database::Resource, Rec.SystemId);
+        NotesJson := NoteManager.GetActiveNotesJson(Database::"Purchase Header", Rec.SystemId);
         CurrPage.StickyNoteAddIn.ShowNotes(NotesJson);
     end;
 }
