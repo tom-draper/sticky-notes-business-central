@@ -1,0 +1,31 @@
+Copyright (c) 2026 Tom Draper
+
+All rights reserved.
+
+Permission is granted to any person obtaining a copy of this software and associated
+documentation files (the "Software") to use, install, and evaluate the Software for
+personal or internal business use, subject to the conditions below.
+
+You may:
+
+- use the Software without charge
+- install and run the Software in Microsoft Dynamics 365 Business Central environments
+- copy the unmodified Software internally for backup, testing, and deployment purposes
+
+You may not:
+
+- sell, sublicense, rent, lease, or commercially redistribute the Software
+- publish or distribute the Software as a competing or standalone commercial offering
+- remove copyright, attribution, or license notices from the Software
+- represent the Software as your own work
+- distribute modified versions of the Software without prior written permission from the copyright holder
+
+Commercial licensing, resale, redistribution, white-label use, and other rights not
+expressly granted above require prior written permission from the copyright holder.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

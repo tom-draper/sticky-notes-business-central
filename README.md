@@ -44,6 +44,11 @@ Sticky notes can be created and viewed on the following record cards:
 
 1. Download the `.app` file from the releases page.
 2. In Business Central, go to **Extension Management** and upload the `.app` file, or publish it via the AL extension in VS Code.
+3. Assign permissions after install:
+   - `SN NOTES, EDIT` for users who create, edit, toggle, and delete notes
+   - `SN NOTES, VIEW` for users who only need to view notes
+
+Without an assigned permission set, the extension may install successfully but appear not to work for end users.
 
 ## Usage
 
@@ -69,3 +74,14 @@ Runtime:    16.0
 ```
 
 To build locally, open the workspace in VS Code with the AL Language extension installed and press `F5` to publish to a sandbox.
+
+## Distribution Notes
+
+- Repository: https://github.com/tom-draper/sticky-notes-business-central
+- Support: [docs/SUPPORT.md](docs/SUPPORT.md)
+- Privacy: [docs/PRIVACY.md](docs/PRIVACY.md)
+- EULA: [docs/EULA.md](docs/EULA.md)
+- License: [LICENSE](LICENSE)
+- Permission sets included:
+  - `SN NOTES, EDIT`
+  - `SN NOTES, VIEW`

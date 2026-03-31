@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" role="img" aria-labelledby="title desc">
+  <title id="title">Sticky note icon</title>
+  <desc id="desc">A simple two-tone sticky note with a yellow header strip.</desc>
+  <rect width="340" height="340" rx="8" fill="#FFF4B0"/>
+  <rect width="340" height="58" rx="8" fill="#FFE066"/>
+  <rect y="50" width="340" height="8" fill="#FFE066"/>
+</svg>
