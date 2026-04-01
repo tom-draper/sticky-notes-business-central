@@ -54,7 +54,7 @@ Without an assigned permission set, the extension may install successfully but a
 
 On any supported record card:
 
-1. Open the **Processing** action menu and find the **Sticky Notes** group.
+1. Open the **Actions** menu and find the **Sticky Notes** group.
 2. Click **New Sticky Note** to create a note for the current record.
 3. Set the message, colour, position (Pop Up or Banner), and optional schedule/expiry.
 4. Click **OK** - the note appears immediately on the page.
