@@ -8,8 +8,8 @@ Sticky Notes for Business Central support information.
 2. Open **Extension Management** in Business Central.
 3. Upload and install the extension.
 4. Assign an extension permission set to users:
-   - `SN NOTES, EDIT` for users who create and manage notes
-   - `SN NOTES, VIEW` for users who only need read access
+   - `SN NOTES - EDIT` for users who create and manage notes
+   - `SN NOTES - VIEW` for users who only need read access
 
 If users are not assigned a permission set, the extension may appear installed but unusable.
 

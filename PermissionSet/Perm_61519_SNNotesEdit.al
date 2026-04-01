@@ -1,9 +1,9 @@
 namespace DefaultPublisher.StickyNoteNotes;
 
-permissionset 61519 "SN NOTES, EDIT"
+permissionset 61519 "SN NOTES - EDIT"
 {
     Assignable = true;
-    Caption = 'Sticky Notes, Edit';
+    Caption = 'SN NOTES - EDIT';
     Permissions =
         tabledata "SN Note" = RIMD,
         page "SN Note List" = X,
