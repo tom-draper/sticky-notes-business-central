@@ -49,12 +49,11 @@ pageextension 61510 "SN Sales Order Ext" extends "Sales Order"
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
-                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
                         NewNote."Target Table ID" := Database::"Sales Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Sales Header");
+                        NewNote."Target Table" := Enum::"SN Target Table"::"Sales Order";
                         NewNote."Target Record Description" := CopyStr('Sales Order ' + Rec."No." + ' - ' + Rec."Sell-to Customer Name", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);

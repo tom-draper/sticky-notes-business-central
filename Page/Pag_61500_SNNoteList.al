@@ -177,7 +177,14 @@ page 61500 "SN Note List"
     }
 
     local procedure CsvField(Value: Text): Text
+    var
+        CrChar: Char;
+        LfChar: Char;
     begin
+        CrChar := 13;
+        LfChar := 10;
+        Value := Value.Replace(Format(CrChar) + Format(LfChar), ' ');
+        Value := Value.Replace(Format(LfChar), ' ');
         exit('"' + Value.Replace('"', '""') + '"');
     end;
 }

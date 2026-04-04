@@ -49,12 +49,11 @@ pageextension 61513 "SN Purchase Order Ext" extends "Purchase Order"
                     var
                         NewNote: Record "SN Note";
                         NoteCard: Page "SN Note Card";
-                        NoteManager: Codeunit "SN Note Manager";
                     begin
                         NewNote.Init();
                         NewNote."Target Table ID" := Database::"Purchase Header";
                         NewNote."Target System ID" := Rec.SystemId;
-                        NewNote."Target Table" := NoteManager.TableIdToTargetTableEnum(Database::"Purchase Header");
+                        NewNote."Target Table" := Enum::"SN Target Table"::"Purchase Order";
                         NewNote."Target Record Description" := CopyStr('Purchase Order ' + Rec."No." + ' - ' + Rec."Buy-from Vendor Name", 1, MaxStrLen(NewNote."Target Record Description"));
                         NewNote."Record No." := Rec."No.";
                         NewNote.Insert(true);
