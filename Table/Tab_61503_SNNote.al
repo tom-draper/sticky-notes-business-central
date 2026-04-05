@@ -93,4 +93,12 @@ table 61503 "SN Note"
         Rec."Created At" := CurrentDateTime();
         Rec.Active := true;
     end;
+
+    trigger OnDelete()
+    var
+        Audience: Record "SN Note Audience";
+    begin
+        Audience.SetRange("Note Entry No.", Rec."Entry No.");
+        Audience.DeleteAll();
+    end;
 }

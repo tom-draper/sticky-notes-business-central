@@ -116,6 +116,18 @@ page 61501 "SN Note Card"
                 }
             }
 
+            group(GrpAudience)
+            {
+                Caption = 'Show Only To';
+
+                part(AudiencePart; "SN Note Audience")
+                {
+                    ApplicationArea = All;
+                    SubPageLink = "Note Entry No." = field("Entry No.");
+                    ToolTip = 'Add users to restrict who can see this note. Leave empty to show to all users.';
+                }
+            }
+
             group(GrpAudit)
             {
                 Caption = 'Created';

@@ -6,6 +6,7 @@ permissionset 61518 "SN NOTES - VIEW"
     Caption = 'SN NOTES - VIEW';
     Permissions =
         tabledata "SN Note" = R,
+        tabledata "SN Note Audience" = R,
         page "SN Note List" = X,
         page "SN Note Card" = X,
         codeunit "SN Note Manager" = X;

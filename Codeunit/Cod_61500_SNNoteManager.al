@@ -37,7 +37,7 @@ codeunit 61500 "SN Note Manager"
 
         if Note.FindSet() then
             repeat
-                if IsNoteVisible(Note, NowDT) and (Note.Style <> Note.Style::Banner) then begin
+                if IsNoteVisible(Note, NowDT) and (Note.Style <> Note.Style::Banner) and IsVisibleToCurrentUser(Note."Entry No.") then begin
                     Clear(NoteObj);
                     NoteObj.Add('entryNo', Note."Entry No.");
                     NoteObj.Add('message', Note.Message);
@@ -78,7 +78,7 @@ codeunit 61500 "SN Note Manager"
 
         if Note.FindSet() then
             repeat
-                if IsNoteVisible(Note, NowDT) then begin
+                if IsNoteVisible(Note, NowDT) and IsVisibleToCurrentUser(Note."Entry No.") then begin
                     Clear(Notif);
                     Notif.Id := Note.SystemId;
                     Notif.Message(Note.Message);
@@ -87,6 +87,17 @@ codeunit 61500 "SN Note Manager"
                     SentIds.Add(Note.SystemId);
                 end;
             until Note.Next() = 0;
+    end;
+
+    local procedure IsVisibleToCurrentUser(NoteEntryNo: Integer): Boolean
+    var
+        Audience: Record "SN Note Audience";
+    begin
+        Audience.SetRange("Note Entry No.", NoteEntryNo);
+        if Audience.IsEmpty() then
+            exit(true);
+        Audience.SetRange("User ID", CopyStr(UserId(), 1, MaxStrLen(Audience."User ID")));
+        exit(not Audience.IsEmpty());
     end;
 
     local procedure IsNoteVisible(Note: Record "SN Note"; NowDT: DateTime): Boolean
