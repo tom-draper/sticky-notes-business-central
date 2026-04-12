@@ -152,11 +152,11 @@ page 61500 "SN Note List"
                                 CsvField(Note.Message) + ',' +
                                 CsvField(Format(Note.Color)) + ',' +
                                 CsvField(Format(Note.Style)) + ',' +
-                                Format(Note."Scheduled From") + ',' +
-                                Format(Note."Expires At") + ',' +
-                                Format(Note.Active) + ',' +
+                                CsvField(Format(Note."Scheduled From")) + ',' +
+                                CsvField(Format(Note."Expires At")) + ',' +
+                                CsvField(Format(Note.Active)) + ',' +
                                 CsvField(Note."Created By") + ',' +
-                                Format(Note."Created At");
+                                CsvField(Format(Note."Created At"));
                             OutStream.WriteText(CsvLine + CrLf);
                         until Note.Next() = 0;
 
