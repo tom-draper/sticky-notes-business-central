@@ -184,8 +184,6 @@ page 61501 "SN Note Card"
     /// Hides the type/record selectors — the user goes straight to the Note details.
     /// </summary>
     procedure SetTargetRecord(TableId: Integer; SystemId: Guid; Description: Text[250])
-    var
-        NoteManager: Codeunit "SN Note Manager";
     begin
         IsTargetPreset := true;
         ShowRecordLookup := false;
