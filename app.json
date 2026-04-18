@@ -2,7 +2,7 @@
   "id": "a23d667d-bc39-43b8-a6c0-95d97e21b89c",
   "name": "Sticky Notes",
   "publisher": "Tom Draper",
-  "version": "1.0.0.0",
+  "version": "1.0.1.0",
   "brief": "Shared sticky notes for Business Central records.",
   "description": "Sticky notes for Dynamics 365 Business Central",
   "privacyStatement": "https://github.com/tom-draper/sticky-notes-business-central/blob/main/docs/PRIVACY.md",
