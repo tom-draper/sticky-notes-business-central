@@ -124,7 +124,6 @@ page 61501 "SN Note Card"
                 {
                     ApplicationArea = All;
                     SubPageLink = "Note Entry No." = field("Entry No.");
-                    ToolTip = 'Add users to restrict who can see this note. Leave empty to show to all users.';
                 }
             }
 
