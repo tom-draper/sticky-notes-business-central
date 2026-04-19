@@ -1,31 +1,69 @@
-Copyright (c) 2026 Tom Draper
+Software Licence Agreement
 
-All rights reserved.
+Copyright (c) 2026 Tom Draper. All rights reserved.
 
-Permission is granted to any person obtaining a copy of this software and associated
-documentation files (the "Software") to use, install, and evaluate the Software for
-personal or internal business use, subject to the conditions below.
+1. Grant of Licence
 
-You may:
+Subject to the terms of this Licence, permission is granted to any person or
+organisation obtaining a copy of this software and associated documentation
+files (the “Software”) to:
 
-- use the Software without charge
-- install and run the Software in Microsoft Dynamics 365 Business Central environments
-- copy the unmodified Software internally for backup, testing, and deployment purposes
+- use the Software for internal business or personal purposes;
+- install and run the Software within Microsoft Dynamics 365 Business Central environments;
+- reproduce and distribute unmodified copies of the Software internally for
+  backup, testing, and deployment purposes.
 
-You may not:
+This Licence is granted free of charge.
 
-- sell, sublicense, rent, lease, or commercially redistribute the Software
-- publish or distribute the Software as a competing or standalone commercial offering
-- remove copyright, attribution, or license notices from the Software
-- represent the Software as your own work
-- distribute modified versions of the Software without prior written permission from the copyright holder
+2. Restrictions
 
-Commercial licensing, resale, redistribution, white-label use, and other rights not
-expressly granted above require prior written permission from the copyright holder.
+Except as expressly permitted under this Licence, you may not:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- sell, sublicense, rent, lease, or otherwise commercially exploit the Software;
+- distribute, publish, or make the Software available to third parties as a
+  standalone or competing product;
+- modify, adapt, or create derivative works of the Software for distribution to
+  any third party;
+- redistribute the Software, whether modified or unmodified, outside of your organisation;
+- remove, alter, or obscure any copyright, attribution, or licence notices;
+- represent the Software, in whole or in part, as your own work.
+
+3. Commercial Use and Additional Rights
+
+Any rights not expressly granted under this Licence are reserved by the copyright holder.
+
+Commercial licensing, including but not limited to resale, redistribution,
+white-labelling, embedding within commercial offerings, or providing the Software
+as a service to third parties, requires prior written permission from the
+copyright holder.
+
+For commercial enquiries, please contact the copyright holder.
+
+4. Ownership
+
+The Software is licensed, not sold. All rights, title, and interest in and to the
+Software remain with the copyright holder.
+
+5. Disclaimer of Warranties
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+6. Limitation of Liability
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR ANY CONTRIBUTORS BE LIABLE FOR ANY
+CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR
+OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+7. Termination
+
+This Licence will terminate automatically if you fail to comply with its terms.
+Upon termination, you must cease all use of the Software and destroy all copies
+in your possession or control.
+
+8. Entire Agreement
+
+This Licence constitutes the entire agreement between the parties regarding the
+Software and supersedes all prior or contemporaneous agreements.
